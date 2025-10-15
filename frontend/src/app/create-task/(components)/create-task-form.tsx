@@ -16,13 +16,13 @@ import { Button } from '@/components/ui/button'
 import { Spinner } from '@/common/spinner'
 
 // Implementing a schema to validate the forms' inputs with Zod
-export const newTaskSchema = z.object({
+export const taskSchema = z.object({
   taskTitle: z.string().min(2, {
     message: 'Enter a valid title for your task! This field cannot be empty.',
   }),
   taskDescription: z.string(),
 })
-export type taskData = z.infer<typeof newTaskSchema>
+export type taskData = z.infer<typeof taskSchema>
 
 export default function CreateTaskForm() {
   const {
@@ -32,7 +32,7 @@ export default function CreateTaskForm() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<taskData>({
-    resolver: zodResolver(newTaskSchema),
+    resolver: zodResolver(taskSchema),
   })
 
   //   //   This function works as the submit handler from zod. It sends the data to the backend after validating the inputs
