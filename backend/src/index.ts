@@ -43,6 +43,7 @@ const appRouter = router({
           taskDescription: input.taskDescription,
           createDate: Date.now(),
         }
+        console.log(newTask)
         tasksArray.push(newTask)
         return tasksArray
       } catch (error) {
@@ -56,7 +57,6 @@ const appRouter = router({
         id: z.number(),
         taskTitle: z.string().min(2),
         taskDescription: z.string(),
-        createDate: z.number(),
       }),
     )
     .mutation(({ input }) => {
@@ -92,7 +92,19 @@ const appRouter = router({
 })
 
 const server = createHTTPServer({
-    router: appRouter
+  router: appRouter,
+})
+
+// I was having problem with CORS (because the front and backend are running on different ports, so I had to google a way to enable the requests)
+server.on('request', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*') // the * allows any address to make requests to the backend, which is usually not safe, but for this case's resolution purposes, it's ok
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  if (req.method === 'OPTIONS') { //preflight req, that avoids the chance of CORS error
+    res.writeHead(204)
+    res.end()
+    return
+  }
 })
 
 // If this project went to production, it would be possible to config an specific port on the .env file for the server to listen to.

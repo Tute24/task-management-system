@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { taskType } from './tasks-display'
+import { taskType, updateType } from './tasks-display'
 import { Button } from '@/components/ui/button'
 import { useEffect, useState } from 'react'
 import z from 'zod'
@@ -11,16 +11,17 @@ import { Input } from '@/components/ui/input'
 import { Spinner } from '@/common/spinner'
 
 type TaskCardProps = taskType & {
-    onDelete: (id:number) => void
-    onUpdate: (updatedTask: taskType) => void
+  onDelete: (id: number) => void
+  onUpdate: (updatedTask: updateType) => void
 }
 
 export default function TaskCard({
-    onDelete,
-    onUpdate,
-    id,
-    createDate,
-    taskDescription,taskTitle
+  onDelete,
+  onUpdate,
+  id,
+  createDate,
+  taskDescription,
+  taskTitle,
 }: TaskCardProps) {
   const [selectedTask, setSelectedTask] = useState(0)
   const [updateProps, setUpdateProps] = useState({
@@ -49,10 +50,9 @@ export default function TaskCard({
 
   const onSubmit: SubmitHandler<updateTask> = (data) => {
     onUpdate({
-        id: selectedTask,
-        taskTitle: data.taskTitle,
-        taskDescription: data.taskDescription,
-        createDate: 1760567895943
+      id: selectedTask,
+      taskTitle: data.taskTitle,
+      taskDescription: data.taskDescription,
     })
     console.log(data)
     setUpdateProps({
@@ -80,14 +80,16 @@ export default function TaskCard({
             >
               Update Task
             </Button>
-            <Button type="button" variant="destructive" onClick={()=> onDelete(id)}>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => onDelete(id)}
+            >
               Delete Task
             </Button>
           </CardHeader>
           <CardContent className="flex flex-col gap-6 font-semibold min-w-[350px]">
-            <div className="items-center text-lg font-bold">
-              {taskTitle}
-            </div>
+            <div className="items-center text-lg font-bold">{taskTitle}</div>
             <div className="items-center text-md">
               <span className="text-blue-600">What to do:</span>{' '}
               {taskDescription}
