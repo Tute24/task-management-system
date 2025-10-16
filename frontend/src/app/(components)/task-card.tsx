@@ -54,7 +54,7 @@ export default function TaskCard({
       taskTitle: data.taskTitle,
       taskDescription: data.taskDescription,
     })
-    console.log(data)
+    //here, I set the updateProps and the selectedTask to their default state after the update is successfull so the card goes back to the default state (without the inputs)
     setUpdateProps({
       id: 0,
       taskTitle: '',
@@ -63,6 +63,9 @@ export default function TaskCard({
     setSelectedTask(0)
   }
   return (
+    // Even though I could handle de task update on a separate form, I thought it would be better and more practical for the user if he could
+    // update the taks title and/or description inside the task card, and with the useEffect used above, the inputs of taskTile and taskDescription are already filled when clicking on update task, so if he wants to 
+    // update only one of of these 2 properties, he doesn't need to rewrite the other one. It's a good way to improve user experience, in my opinion
     <>
       {id !== selectedTask && (
         <Card className="w-full sm:min-w-[400px] hover:shadow-md hover:shadow-gray-500">
@@ -102,6 +105,7 @@ export default function TaskCard({
         </Card>
       )}
       {id === selectedTask && (
+        // here, by disabling the buttons when the form is being submitted, the app avoids the possibility of duplicate requests and errors if the user clicks on more than one button almost "simultaneously"
         <Card className="w-full sm:min-w-[400px] hover:shadow-md hover:shadow-gray-500">
           <CardHeader className="flex flex-row justify-between text-center px-2 py-2">
             <Button

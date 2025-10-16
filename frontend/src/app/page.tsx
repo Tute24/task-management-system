@@ -2,7 +2,7 @@ import { trpc } from '@/trpcClient'
 import TaksDisplay from './(components)/tasks-display'
 
 export default async function Home() {
-  const tasksArray = await trpc.getTasks.query() //tRPC enables full typesafe, so tasksArray comes as taskType[]
+  const tasksArray = await trpc.getTasks.query() //tRPC enables full typesafe, so tasksArray comes as taskType[]. Also, this is SSR being used to pre-load the tasks list (no 'use client' on this component)
   return (
     <>
       <div className="flex flex-col text-xl font-bold items-center m-auto justify-center text-center gap-5 py-5">

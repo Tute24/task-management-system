@@ -5,7 +5,7 @@ import type { AppRouter } from '../../backend/src/index'
 export const trpc = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: `http://localhost:3000`, //I used 3000 on the PORT env variable. I put this way to ensure more control and sfety for the developer
+      url: `http://localhost:3000`, 
     }),
   ],
 })

@@ -41,7 +41,6 @@ export default function CreateTaskForm() {
     try {
       const createdTask = await trpc.createTask.mutate(data)
       if (createdTask) {
-        console.log(data, createdTask)
         reset()
         alert('Task successfully created!') // if the task creation is succesfull, the user receives an alert on the screen with the success message (good for user experience)
       }
