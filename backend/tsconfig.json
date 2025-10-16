@@ -1,4 +1,4 @@
-// This file was necessary to execute the start script because it gives instructions for tsc on how to compile the TS files
+// This file was necessary to execute the start script because it gives instructions for tsc on how to compile the TS files and modules
 {
   "compilerOptions": {
     "target": "es2016",

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { taskType } from './tasks-display'
+import { taskType, updateType } from './tasks-display'
 import { Button } from '@/components/ui/button'
 import { useEffect, useState } from 'react'
 import z from 'zod'
@@ -9,18 +9,20 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/common/spinner'
+import dayjs from 'dayjs'
 
 type TaskCardProps = taskType & {
-    onDelete: (id:number) => void
-    onUpdate: (updatedTask: taskType) => void
+  onDelete: (id: number) => void
+  onUpdate: (updatedTask: updateType) => void
 }
 
 export default function TaskCard({
-    onDelete,
-    onUpdate,
-    id,
-    createDate,
-    taskDescription,taskTitle
+  onDelete,
+  onUpdate,
+  id,
+  createDate,
+  taskDescription,
+  taskTitle,
 }: TaskCardProps) {
   const [selectedTask, setSelectedTask] = useState(0)
   const [updateProps, setUpdateProps] = useState({
@@ -49,12 +51,11 @@ export default function TaskCard({
 
   const onSubmit: SubmitHandler<updateTask> = (data) => {
     onUpdate({
-        id: selectedTask,
-        taskTitle: data.taskTitle,
-        taskDescription: data.taskDescription,
-        createDate: 1760567895943
+      id: selectedTask,
+      taskTitle: data.taskTitle,
+      taskDescription: data.taskDescription,
     })
-    console.log(data)
+    //here, I set the updateProps and the selectedTask to their default state after the update is successfull so the card goes back to the default state (without the inputs)
     setUpdateProps({
       id: 0,
       taskTitle: '',
@@ -63,9 +64,12 @@ export default function TaskCard({
     setSelectedTask(0)
   }
   return (
+    // Even though I could handle de task update on a separate form, I thought it would be better and more practical for the user if he could
+    // update the taks title and/or description inside the task card, and with the useEffect used above, the inputs of taskTile and taskDescription are already filled when clicking on update task, so if he wants to 
+    // update only one of of these 2 properties, he doesn't need to rewrite the other one. It's a good way to improve user experience, in my opinion
     <>
       {id !== selectedTask && (
-        <Card className="w-full sm:min-w-[400px] hover:shadow-md hover:shadow-gray-500">
+        <Card className="sm:w-[600px] w-[350px] hover:shadow-md hover:shadow-gray-500">
           <CardHeader className="flex flex-row justify-between text-center px-2 py-2">
             <Button
               type="button"
@@ -80,27 +84,31 @@ export default function TaskCard({
             >
               Update Task
             </Button>
-            <Button type="button" variant="destructive" onClick={()=> onDelete(id)}>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => onDelete(id)}
+            >
               Delete Task
             </Button>
           </CardHeader>
           <CardContent className="flex flex-col gap-6 font-semibold min-w-[350px]">
-            <div className="items-center text-lg font-bold">
-              {taskTitle}
-            </div>
-            <div className="items-center text-md">
+            <div className="items-center text-lg font-bold">{taskTitle}</div>
+            <div className="flex flex-col justify-center items-center text-md break-all">
               <span className="text-blue-600">What to do:</span>{' '}
               {taskDescription}
             </div>
-            <div className="items-center text-md">
-              <span className="text-blue-600">Created at:</span>{' '}
-              {`${createDate}`}
+            <div className="flex justify-center items-center text-md">
+              <span className="text-blue-600">Created at: </span> {' '}
+              {dayjs(createDate).format('DD/MM/YYYY HH:mm')}
+              {/* using dayjs to format the creationDate that is originally a millissecond timestamp  */}
             </div>
           </CardContent>
         </Card>
       )}
       {id === selectedTask && (
-        <Card className="w-full sm:min-w-[400px] hover:shadow-md hover:shadow-gray-500">
+        // here, by disabling the buttons when the form is being submitted, the app avoids the possibility of duplicate requests and errors if the user clicks on more than one button almost "simultaneously"
+        <Card className="sm:w-[600px] w-[350px] hover:shadow-md hover:shadow-gray-500">
           <CardHeader className="flex flex-row justify-between text-center px-2 py-2">
             <Button
               disabled={isSubmitting}
@@ -163,7 +171,7 @@ export default function TaskCard({
               </div>
               <div className="items-center text-md py-2 font-bold">
                 <span className="text-blue-600">Created at:</span>{' '}
-                {`${createDate}`}
+                {dayjs(createDate).format('DD/MM/YYYY HH:mm')}
               </div>
             </form>
           </CardContent>
