@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/common/spinner'
+import dayjs from 'dayjs'
 
 type TaskCardProps = taskType & {
   onDelete: (id: number) => void
@@ -98,8 +99,9 @@ export default function TaskCard({
               {taskDescription}
             </div>
             <div className="flex justify-center items-center text-md">
-              <span className="text-blue-600">Created at:</span>{' '}
-              {`${createDate}`}
+              <span className="text-blue-600">Created at: </span> {' '}
+              {dayjs(createDate).format('DD/MM/YYYY HH:mm')}
+              {/* using dayjs to format the creationDate that is originally a millissecond timestamp  */}
             </div>
           </CardContent>
         </Card>
@@ -169,7 +171,7 @@ export default function TaskCard({
               </div>
               <div className="items-center text-md py-2 font-bold">
                 <span className="text-blue-600">Created at:</span>{' '}
-                {`${createDate}`}
+                {dayjs(createDate).format('DD/MM/YYYY HH:mm')}
               </div>
             </form>
           </CardContent>
