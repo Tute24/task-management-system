@@ -68,7 +68,7 @@ export default function TaskCard({
     // update only one of of these 2 properties, he doesn't need to rewrite the other one. It's a good way to improve user experience, in my opinion
     <>
       {id !== selectedTask && (
-        <Card className="w-full sm:min-w-[400px] hover:shadow-md hover:shadow-gray-500">
+        <Card className="sm:w-[600px] w-[350px] hover:shadow-md hover:shadow-gray-500">
           <CardHeader className="flex flex-row justify-between text-center px-2 py-2">
             <Button
               type="button"
@@ -93,11 +93,11 @@ export default function TaskCard({
           </CardHeader>
           <CardContent className="flex flex-col gap-6 font-semibold min-w-[350px]">
             <div className="items-center text-lg font-bold">{taskTitle}</div>
-            <div className="items-center text-md">
+            <div className="flex flex-col justify-center items-center text-md break-all">
               <span className="text-blue-600">What to do:</span>{' '}
               {taskDescription}
             </div>
-            <div className="items-center text-md">
+            <div className="flex justify-center items-center text-md">
               <span className="text-blue-600">Created at:</span>{' '}
               {`${createDate}`}
             </div>
@@ -106,7 +106,7 @@ export default function TaskCard({
       )}
       {id === selectedTask && (
         // here, by disabling the buttons when the form is being submitted, the app avoids the possibility of duplicate requests and errors if the user clicks on more than one button almost "simultaneously"
-        <Card className="w-full sm:min-w-[400px] hover:shadow-md hover:shadow-gray-500">
+        <Card className="sm:w-[600px] w-[350px] hover:shadow-md hover:shadow-gray-500">
           <CardHeader className="flex flex-row justify-between text-center px-2 py-2">
             <Button
               disabled={isSubmitting}

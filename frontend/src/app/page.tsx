@@ -13,7 +13,7 @@ export default async function Home() {
           You can update or delete your tasks
         </h2>
       </div>
-      <div className="flex max-w-[750px] min-w-[400px] items-center justify-center text-center m-auto">
+      <div className="flex max-w-[750px] min-w-[350px] items-center justify-center text-center m-auto">
         {tasksArray && <TaksDisplay tasksListData={tasksArray} />}
       </div>
     </>
